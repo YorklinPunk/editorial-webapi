@@ -1,0 +1,62 @@
+# Archivos de usuario y configuración local
+.vs/
+*.user
+*.rsuser
+*.suo
+
+# Compilación y binarios
+bin/
+obj/
+[Ll]og/
+[Ll]ogs/
+
+# Publicaciones
+publish/
+out/
+dist/
+
+# Configuración local de entorno
+appsettings.Development.json
+appsettings.Local.json
+.env
+
+# Archivos de paquetes NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Archivos generados por Visual Studio o Rider
+.idea/
+*.sln.iml
+
+# Archivos temporales o de respaldo
+*.tmp
+*.temp
+*.bak
+*.log
+
+# Resultados de pruebas y cobertura
+TestResults/
+*.coverage
+*.coveragexml
+
+# Configuración de IIS y debugging local
+iisexpress/
+.launchSettings.json
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos de publicación de Azure
+PublishProfiles/
+
+# Base de datos local y cachés
+*.dbmdl
+*.mdf
+*.ldf
+*.opendb
