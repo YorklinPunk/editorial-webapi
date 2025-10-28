@@ -28,6 +28,7 @@ namespace editorial_webapi.Areas.Implementation
                     resultado.content.Add(new ListaLibroRespuestaDto()
                     {
                         IdLibro = libro.Field<int>("IdLibro"),
+                        Autor = libro.Field<string>("Autor") ?? "",
                         Titulo = libro.Field<string>("Titulo") ?? "",
                         Genero = libro.Field<string>("Genero") ?? "",
                         Precio = libro.Field<decimal>("Precio"),
@@ -67,7 +68,7 @@ namespace editorial_webapi.Areas.Implementation
                 {
                     IdLibro = respBd.Field<int>("IdLibro"),
                     FormatoArchivo = respBd.Field<string>("FormatoArchivo") ?? "",
-                    TamanoMB = respBd.Field<decimal>("TamanoMB"),
+                    TamanoMB = respBd.Field<double>("TamanoMB"),
                     UrlDescarga = respBd.Field<string>("UrlDescarga") ?? ""
                 };
 
