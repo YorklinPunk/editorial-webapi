@@ -8,7 +8,7 @@ namespace editorial_webapi.Configurations
     {
         public async Task<DataSet> Procedure(ProcedureRequestDto procedureRequestDto)
         {
-            SqlConnectionStringBuilder CSChatSignalR = new ConnectionStringDB().ConnectionStringApi("EditorialDB");
+            SqlConnectionStringBuilder CSChatSignalR = new ConnectionStringDB().ConnectionStringApi("GatoDescalzo");
 
             DataSet Ds = new();
 

@@ -6,10 +6,10 @@ namespace editorial_webapi.Configurations
     {
         public SqlConnectionStringBuilder ConnectionStringApi(string Database)
         {
-            var host = GlobalConfiguration.Configuration["dotnet.webapi.host"];
-            var port = GlobalConfiguration.Configuration["dotnet.webapi.port"];
-            var user = GlobalConfiguration.Configuration["dotnet.webapi.user"];
-            var pass = GlobalConfiguration.Configuration["dotnet.webapi.pass"];
+            var host = "192.168.1.30";
+            var port = "1433";
+            var user = "ylazaro";
+            var pass = "123456";
 
             SqlConnectionStringBuilder builder = new()
             {

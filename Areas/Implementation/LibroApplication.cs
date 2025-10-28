@@ -14,14 +14,14 @@ namespace editorial_webapi.Areas.Implementation
             {
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = "",
                     Indice = 10
                 });
 
 
                 resultado.isValid = true;
-                resultado.content = new List<ListaLibroRespuestaDto>();
+                resultado.content = [];
 
                 foreach (var libro in (from x in ds.Tables[0].AsEnumerable() select x))
                 {
@@ -32,8 +32,8 @@ namespace editorial_webapi.Areas.Implementation
                         Genero = libro.Field<string>("Genero") ?? "",
                         Precio = libro.Field<decimal>("Precio"),
                         Editorial = libro.Field<string>("Editorial") ?? "",
-                        IdCategoria = libro.Field<int>("IdCategoria"),
-                        TipoLibro = libro.Field<int>("TipoLibro")
+                        Categoria = libro.Field<string>("Categoria") ?? "",
+                        TipoLibro = libro.Field<string>("TipoLibro") ?? ""
                     });
                 }
 
@@ -54,9 +54,9 @@ namespace editorial_webapi.Areas.Implementation
             {
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = $"{IdLibro}",
-                    Indice = 11
+                    Indice = 14
                 });
 
 
@@ -87,9 +87,9 @@ namespace editorial_webapi.Areas.Implementation
             {
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = $"{IdLibro}",
-                    Indice = 11
+                    Indice = 13
                 });
 
 
@@ -119,18 +119,18 @@ namespace editorial_webapi.Areas.Implementation
             try
             {
                 var rpp = registroLibroPeticionDto;
-                var parametros = $"{rpp.Titulo}|{rpp.Genero}|{rpp.Precio}|{rpp.Editorial}|{rpp.IdCategoria}|{rpp.TipoLibro}";
+                var parametros = $"{rpp.Titulo}|{rpp.Autor}|{rpp.Genero}|{rpp.Precio}|{rpp.Editorial}|{rpp.IdCategoria}|{rpp.TipoLibro}|{rpp.Stock}|{rpp.TipoTapa}|{rpp.PesoGramos}|{rpp.FormatoArchivo}|{rpp.TamanoMB}|{rpp.UrlDescarga}";
 
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto()
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = parametros,
                     Indice = 20
                 });
 
                 var respBd = (from x in ds.Tables[0].AsEnumerable() select x).FirstOrDefault();
 
-                resultado.isValid = respBd?.Field<int>("CodResultado") == 1 ? true : false;
+                resultado.isValid = respBd?.Field<int>("CodResultado") == 1;
                 resultado.content = respBd?.Field<string>("DesResultado") ?? "";
 
                 return resultado;
@@ -148,18 +148,18 @@ namespace editorial_webapi.Areas.Implementation
             try
             {
                 var rpp = detalleLibroDigitalRespuestaDto;
-                var parametros = $"{rpp.FormatoArchivo}|{rpp.TamanoMB}|{rpp.UrlDescarga}";
+                var parametros = $"{rpp.IdLibro}|{rpp.FormatoArchivo}|{rpp.TamanoMB}|{rpp.UrlDescarga}";
 
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto()
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = parametros,
-                    Indice = 21
+                    Indice = 32
                 });
 
                 var respBd = (from x in ds.Tables[0].AsEnumerable() select x).FirstOrDefault();
 
-                resultado.isValid = respBd?.Field<int>("CodResultado") == 1 ? true : false;
+                resultado.isValid = respBd?.Field<int>("CodResultado") == 1;
                 resultado.content = respBd?.Field<string>("DesResultado") ?? "";
 
                 return resultado;
@@ -177,18 +177,18 @@ namespace editorial_webapi.Areas.Implementation
             try
             {
                 var rpp = detalleLibroFisicoRespuestaDto;
-                var parametros = $"{rpp.Stock}|{rpp.TipoTapa}|{rpp.PesoGramos}";
+                var parametros = $"{rpp.IdLibro}|{rpp.Stock}|{rpp.TipoTapa}|{rpp.PesoGramos}";
 
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto()
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = parametros,
-                    Indice = 22
+                    Indice = 31
                 });
 
                 var respBd = (from x in ds.Tables[0].AsEnumerable() select x).FirstOrDefault();
 
-                resultado.isValid = respBd?.Field<int>("CodResultado") == 1 ? true : false;
+                resultado.isValid = respBd?.Field<int>("CodResultado") == 1;
                 resultado.content = respBd?.Field<string>("DesResultado") ?? "";
 
                 return resultado;
@@ -202,22 +202,22 @@ namespace editorial_webapi.Areas.Implementation
 
         public async Task<OperationResult<string>> EditarLibro(EditarLibroPeticionDto editarLibroPeticionDto)
         {
-            var resultado = new OperationResult<string> { isValid = false, exceptions = new List<OperationException>() };
+            var resultado = new OperationResult<string> { isValid = false, exceptions = [] };
             try
             {
                 var rpp = editarLibroPeticionDto;
-                var parametros = $"{rpp.IdLibro}|{rpp.Titulo}|{rpp.Genero}|{rpp.Precio}|{rpp.Editorial}|{rpp.IdCategoria}|{rpp.TipoLibro}";
+                var parametros = $"{rpp.IdLibro}|{rpp.Titulo}|{rpp.Autor}|{rpp.Genero}|{rpp.Precio}|{rpp.Editorial}|{rpp.IdCategoria}|{rpp.TipoLibro}|{rpp.Stock}|{rpp.TipoTapa}|{rpp.PesoGramos}|{rpp.FormatoArchivo}|{rpp.TamanoMB}|{rpp.UrlDescarga}";
 
                 var ds = await new ProcedureGeneral().Procedure(new ProcedureRequestDto()
                 {
-                    Procedimiento = "dbo.ProcEditorial",
+                    Procedimiento = "dbo.ProcLibreria",
                     Parametro = parametros,
                     Indice = 30
                 });
 
                 var respBd = (from x in ds.Tables[0].AsEnumerable() select x).FirstOrDefault();
 
-                resultado.isValid = respBd?.Field<int>("CodResultado") == 1 ? true : false;
+                resultado.isValid = respBd?.Field<int>("CodResultado") == 1;
                 resultado.content = respBd?.Field<string>("DesResultado") ?? "";
 
                 return resultado;
